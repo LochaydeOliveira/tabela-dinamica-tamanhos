@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela de Tamanhos com Arrays</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #formMedidas {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin: 0 0 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input[type="number"].error {
+            border-color: red;
+        }
+
+        input[type="submit"], input[type="button"] {
+            background-color: #5cb85c;
+            border: none;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        input[type="submit"]:hover, input[type="button"]:hover {
+            background-color: #4cae4c;
+        }
+
+        #resultado, #erro {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+            color: #333;
+        }
+
+        #erro {
+            color: red;
+            font-size: 16px;
+        }
+
+        #limparCampos {
+            display: none; /* Inicialmente escondido */
+        }
+    </style>
+</head>
+<body>
+
+<form id="formMedidas">
+    <h2>Verifique seu tamanho</h2>
+
+    <label for="comprimento">Comprimento:</label>
+    <input type="number" id="comprimento" name="comprimento" required><br>
+
+    <label for="busto">Busto:</label>
+    <input type="number" id="busto" name="busto" required><br>
+
+    <label for="cintura">Cintura:</label>
+    <input type="number" id="cintura" name="cintura" required><br>
+
+    <label for="quadril">Quadril:</label>
+    <input type="number" id="quadril" name="quadril" required><br>
+
+    <input type="submit" value="Verificar Tamanho">
+    <input type="button" value="Limpar Campos" id="limparCampos">
+
+    <p id="resultado"></p>
+    <p id="erro"></p>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tamanhos = [
+        { tamanho: 'P', comprimento: [168, 170], busto: [90, 92], cintura: [68, 70], quadril: [100, 102] },
+        { tamanho: 'M', comprimento: [172, 174], busto: [94, 96], cintura: [72, 74], quadril: [104, 106] },
+        { tamanho: 'G', comprimento: [176, 178], busto: [98, 100], cintura: [76, 78], quadril: [108, 110] },
+        { tamanho: 'GG', comprimento: [180, 182], busto: [102, 104], cintura: [80, 82], quadril: [112, 114] },
+        { tamanho: 'XG', comprimento: [184, 186], busto: [106, 108], cintura: [84, 86], quadril: [116, 118] },
+    ];
+
+    function setPlaceholders() {
+        const comprimentoMin = Math.min(...tamanhos.map(t => t.comprimento[0]));
+        const comprimentoMax = Math.max(...tamanhos.map(t => t.comprimento[1]));
+        document.getElementById('comprimento').placeholder = `Entre ${comprimentoMin} e ${comprimentoMax} cm`;
+
+        const bustoMin = Math.min(...tamanhos.map(t => t.busto[0]));
+        const bustoMax = Math.max(...tamanhos.map(t => t.busto[1]));
+        document.getElementById('busto').placeholder = `Entre ${bustoMin} e ${bustoMax} cm`;
+
+        const cinturaMin = Math.min(...tamanhos.map(t => t.cintura[0]));
+        const cinturaMax = Math.max(...tamanhos.map(t => t.cintura[1]));
+        document.getElementById('cintura').placeholder = `Entre ${cinturaMin} e ${cinturaMax} cm`;
+
+        const quadrilMin = Math.min(...tamanhos.map(t => t.quadril[0]));
+        const quadrilMax = Math.max(...tamanhos.map(t => t.quadril[1]));
+        document.getElementById('quadril').placeholder = `Entre ${quadrilMin} e ${quadrilMax} cm`;
+    }
+
+    function validarCampo(id, tipo) {
+        const valor = parseInt(document.getElementById(id).value);
+        let tamanhoCorreto = null;
+
+        tamanhos.forEach(t => {
+            if (valor >= t[tipo][0] && valor <= t[tipo][1]) {
+                tamanhoCorreto = t;
+            }
+        });
+
+        if (!tamanhoCorreto) {
+            document.getElementById(id).classList.add('error');
+            return `Valor de ${id} está fora do intervalo para todos os tamanhos.`;
+        }
+
+        document.getElementById(id).classList.remove('error');
+        return '';
+    }
+
+    function mostrarErros() {
+        let erro = '';
+        erro += validarCampo('comprimento', 'comprimento') + ' ';
+        erro += validarCampo('busto', 'busto') + ' ';
+        erro += validarCampo('cintura', 'cintura') + ' ';
+        erro += validarCampo('quadril', 'quadril') + ' ';
+
+        document.getElementById('erro').textContent = erro.trim();
+    }
+
+    function resetarCampos() {
+        document.getElementById('formMedidas').reset();
+        document.getElementById('resultado').textContent = '';
+        document.getElementById('erro').textContent = '';
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.classList.remove('error');
+        });
+        document.getElementById('limparCampos').style.display = 'none'; // Esconde o botão após limpar
+    }
+
+    setPlaceholders();
+
+    document.getElementById('formMedidas').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        mostrarErros(); // Chama a função de validação ao clicar no botão
+
+        const comprimento = parseInt(document.getElementById('comprimento').value);
+        const busto = parseInt(document.getElementById('busto').value);
+        const cintura = parseInt(document.getElementById('cintura').value);
+        const quadril = parseInt(document.getElementById('quadril').value);
+
+        let tamanhoEncontrado = 'Tamanho não encontrado';
+        let maxMatch = 0;
+        let melhorTamanho = '';
+
+        for (const tamanho of tamanhos) {
+            let matches = 0;
+
+            if (comprimento >= tamanho.comprimento[0] && comprimento <= tamanho.comprimento[1]) matches++;
+            if (busto >= tamanho.busto[0] && busto <= tamanho.busto[1]) matches++;
+            if (cintura >= tamanho.cintura[0] && cintura <= tamanho.cintura[1]) matches++;
+            if (quadril >= tamanho.quadril[0] && quadril <= tamanho.quadril[1]) matches++;
+
+            if (matches > maxMatch) {
+                maxMatch = matches;
+                melhorTamanho = tamanho.tamanho;
+            }
+        }
+
+        if (maxMatch > 0) {
+            tamanhoEncontrado = 'Seu tamanho é: ' + melhorTamanho;
+            document.getElementById('erro').textContent = ''; // Limpar erro se tamanho encontrado
+        }
+
+        document.getElementById('resultado').textContent = tamanhoEncontrado;
+        document.getElementById('limparCampos').style.display = 'inline-block'; // Mostra o botão após verificação
+    });
+
+    document.getElementById('limparCampos').addEventListener('click', resetarCampos);
+});
+</script>
+
+</body>
+</html>
