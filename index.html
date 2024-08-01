@@ -53,7 +53,7 @@
         }
 
         input[type="submit"], input[type="button"] {
-            background-color: #5cb85c;
+            background-color: #000000;
             border: none;
             color: white;
             padding: 15px 20px;
@@ -63,17 +63,17 @@
             font-size: 16px;
             margin: 10px 2px;
             cursor: pointer;
-            border-radius: 4px;
             width: 100%;
+            transition: 150ms all;
         }
 
         input[type="submit"]:hover, input[type="button"]:hover {
-            background-color: #4cae4c;
+            background-color: #020202a6;
         }
 
         #resultado, #erro {
             margin-top: 20px;
-            font-size: 18px;
+            font-size: 22px;
             text-align: center;
             color: #333;
         }
@@ -88,6 +88,7 @@
             background: none!important;
             color: #353535;
             text-decoration: underline;
+            font-size: 15px;
         }
     </style>
 </head>
@@ -118,10 +119,10 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const tamanhos = [
-        { tamanho: 'P', comprimento: [168, 170], busto: [90, 92], cintura: [68, 70], quadril: [100, 102] },
-        { tamanho: 'M', comprimento: [172, 174], busto: [94, 96], cintura: [72, 74], quadril: [104, 106] },
-        { tamanho: 'G', comprimento: [176, 178], busto: [98, 100], cintura: [76, 78], quadril: [108, 110] },
-        { tamanho: 'GG', comprimento: [180, 182], busto: [102, 104], cintura: [80, 82], quadril: [112, 114] },
+        { tamanho: 'P', comprimento: [168, 171], busto: [90, 93], cintura: [68, 71], quadril: [100, 103] },
+        { tamanho: 'M', comprimento: [172, 175], busto: [94, 97], cintura: [72, 75], quadril: [104, 107] },
+        { tamanho: 'G', comprimento: [176, 179], busto: [98, 101], cintura: [76, 79], quadril: [108, 111] },
+        { tamanho: 'GG', comprimento: [180, 183], busto: [102, 105], cintura: [80, 83], quadril: [112, 115] },
         { tamanho: 'XG', comprimento: [184, 186], busto: [106, 108], cintura: [84, 86], quadril: [116, 118] },
     ];
 
