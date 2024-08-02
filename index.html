@@ -71,16 +71,34 @@
             background-color: #020202a6;
         }
 
-        #resultado, #erro {
-            margin-top: 20px;
-            font-size: 22px;
+        #mensagemTamanho,
+        #resultado,
+        #erro {
+            margin: 0 auto;
+            font-size: 25px;
             text-align: center;
+            padding: 10px 20px;
+            width: 100%;
+            max-width: max-content;
+            display: none;
+        }
+
+        #resultado {
             color: #333;
+            background: #fff;
+            border-radius: 20px;
+            padding: 15px 30px;
+            color: #996d07;
+            border: 1px solid #996d07;
+            font-weight: bold;
         }
 
         #erro {
             color: red;
             font-size: 16px;
+            display: none;
+            white-space: pre-wrap;
+            text-align: left;
         }
 
         #limparCampos {
@@ -90,6 +108,7 @@
             text-decoration: underline;
             font-size: 15px;
         }
+        
     </style>
 </head>
 <body>
@@ -109,11 +128,11 @@
     <label for="quadril">Quadril:</label>
     <input type="number" id="quadril" name="quadril" required><br>
 
-    <input type="submit" value="Verificar Tamanho">
-    <input type="button" value="Limpar Campos" id="limparCampos">
-
+    <input type="submit" value="Descobrir Meu Tamanho">
+    <p id="mensagemTamanho"></p>
     <p id="resultado"></p>
     <p id="erro"></p>
+    <input type="button" value="Limpar Campos" id="limparCampos">
 </form>
 
 <script>
@@ -156,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!tamanhoCorreto) {
             document.getElementById(id).classList.add('error');
-            return `Valor de ${id} está fora do intervalo para todos os tamanhos.`;
+            return `Valor de ${id} inválido.\n`;
         }
 
         document.getElementById(id).classList.remove('error');
@@ -165,22 +184,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function mostrarErros() {
         let erro = '';
-        erro += validarCampo('comprimento', 'comprimento') + ' ';
-        erro += validarCampo('busto', 'busto') + ' ';
-        erro += validarCampo('cintura', 'cintura') + ' ';
-        erro += validarCampo('quadril', 'quadril') + ' ';
+        erro += validarCampo('comprimento', 'comprimento');
+        erro += validarCampo('busto', 'busto');
+        erro += validarCampo('cintura', 'cintura');
+        erro += validarCampo('quadril', 'quadril');
 
         document.getElementById('erro').textContent = erro.trim();
+        document.getElementById('erro').style.display = erro.trim() ? 'block' : 'none';
     }
 
     function resetarCampos() {
         document.getElementById('formMedidas').reset();
         document.getElementById('resultado').textContent = '';
+        document.getElementById('mensagemTamanho').textContent = '';
         document.getElementById('erro').textContent = '';
         document.querySelectorAll('input[type="number"]').forEach(input => {
             input.classList.remove('error');
         });
-        document.getElementById('limparCampos').style.display = 'none'; // Esconde o botão após limpar
+        document.getElementById('mensagemTamanho').style.display = 'none';
+        document.getElementById('resultado').style.display = 'none';
+        document.getElementById('erro').style.display = 'none';
+        document.getElementById('limparCampos').style.display = 'none';
     }
 
     setPlaceholders();
@@ -188,14 +212,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('formMedidas').addEventListener('submit', function(event) {
         event.preventDefault();
 
-        mostrarErros(); // Chama a função de validação ao clicar no botão
+        mostrarErros();
 
         const comprimento = parseInt(document.getElementById('comprimento').value);
         const busto = parseInt(document.getElementById('busto').value);
         const cintura = parseInt(document.getElementById('cintura').value);
         const quadril = parseInt(document.getElementById('quadril').value);
 
-        let tamanhoEncontrado = 'Tamanho não encontrado';
+        let tamanhoEncontrado = '';
         let maxMatch = 0;
         let melhorTamanho = '';
 
@@ -207,22 +231,39 @@ document.addEventListener('DOMContentLoaded', function() {
             if (cintura >= tamanho.cintura[0] && cintura <= tamanho.cintura[1]) matches++;
             if (quadril >= tamanho.quadril[0] && quadril <= tamanho.quadril[1]) matches++;
 
+            if (matches === 4) {
+                tamanhoEncontrado = tamanho.tamanho;
+                break;
+            }
+
             if (matches > maxMatch) {
                 maxMatch = matches;
                 melhorTamanho = tamanho.tamanho;
             }
         }
 
-        if (maxMatch > 0) {
-            tamanhoEncontrado = 'Seu tamanho é: ' + melhorTamanho;
-            document.getElementById('erro').textContent = ''; // Limpar erro se tamanho encontrado
+        const erroTexto = document.getElementById('erro').textContent.trim();
+        if (erroTexto) {
+            document.getElementById('resultado').style.display = 'none';
+            document.getElementById('mensagemTamanho').style.display = 'none';
+            return;
         }
 
-        document.getElementById('resultado').textContent = tamanhoEncontrado;
-        document.getElementById('limparCampos').style.display = 'inline-block'; // Mostra o botão após verificação
+        if (tamanhoEncontrado) {
+            document.getElementById('resultado').textContent = `Seu tamanho é: ${tamanhoEncontrado}`;
+        } else {
+            document.getElementById('resultado').textContent = `Melhor tamanho: ${melhorTamanho}`;
+        }
+
+        document.getElementById('resultado').style.display = 'block';
+        // document.getElementById('mensagemTamanho').textContent = 'Verificação Completa!';
+        document.getElementById('mensagemTamanho').style.display = 'block';
+        document.getElementById('limparCampos').style.display = 'block';
     });
 
-    document.getElementById('limparCampos').addEventListener('click', resetarCampos);
+    document.getElementById('limparCampos').addEventListener('click', function() {
+        resetarCampos();
+    });
 });
 </script>
 
