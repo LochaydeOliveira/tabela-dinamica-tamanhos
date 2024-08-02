@@ -5,109 +5,148 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabela de Tamanhos com Arrays</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    box-sizing: border-box;
+}
 
-        #formMedidas {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            max-width: 400px;
-            width: 100%;
-        }
+#formMedidas {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 100%;
+    width: 400px;
+    box-sizing: border-box;
+}
 
-        h2 {
-            text-align: center;
-            color: #333;
-            margin: 0 0 20px;
-        }
+h2 {
+    text-align: center;
+    color: #333;
+    margin: 0 0 20px;
+}
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
 
-        input[type="number"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
+input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
 
-        input[type="number"].error {
-            border-color: red;
-        }
+input[type="number"].error {
+    border-color: red;
+}
 
-        input[type="submit"], input[type="button"] {
-            background-color: #000000;
-            border: none;
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 10px 2px;
-            cursor: pointer;
-            width: 100%;
-            transition: 150ms all;
-        }
+input[type="submit"], input[type="button"] {
+    background-color: #000000;
+    border: none;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 2px;
+    cursor: pointer;
+    width: 100%;
+    transition: 150ms all;
+    box-sizing: border-box;
+}
 
-        input[type="submit"]:hover, input[type="button"]:hover {
-            background-color: #020202a6;
-        }
+input[type="submit"]:hover, input[type="button"]:hover {
+    background-color: #020202a6;
+}
 
-        #mensagemTamanho,
-        #resultado,
-        #erro {
-            margin: 0 auto;
-            font-size: 25px;
-            text-align: center;
-            padding: 10px 20px;
-            width: 100%;
-            max-width: max-content;
-            display: none;
-        }
+#mensagemTamanho,
+#resultado,
+#erro {
+    margin: 0 auto;
+    font-size: 25px;
+    text-align: center;
+    padding: 10px 20px;
+    width: 100%;
+    max-width: max-content;
+    display: none;
+}
 
-        #resultado {
-            color: #333;
-            background: #fff;
-            border-radius: 20px;
-            padding: 15px 30px;
-            color: #996d07;
-            border: 1px solid #996d07;
-            font-weight: bold;
-        }
+#resultado {
+    color: #333;
+    background: #fff;
+    border-radius: 20px;
+    padding: 15px 30px;
+    color: #996d07;
+    border: 1px solid #996d07;
+    font-weight: bold;
+}
 
-        #erro {
-            color: red;
-            font-size: 16px;
-            display: none;
-            white-space: pre-wrap;
-            text-align: left;
-        }
+#erro {
+    color: red;
+    font-size: 16px;
+    display: none;
+    white-space: pre-wrap;
+    text-align: left;
+}
 
-        #limparCampos {
-            display: none;
-            background: none!important;
-            color: #353535;
-            text-decoration: underline;
-            font-size: 15px;
-        }
+#limparCampos {
+    display: none;
+    background: none!important;
+    color: #353535;
+    text-decoration: underline;
+    font-size: 15px;
+}
+
+@media (max-width: 768px) {
+    #formMedidas {
+        width: 100%;
+        padding: 15px;
+    }
+
+    input[type="submit"], input[type="button"] {
+        font-size: 15px;
+        padding: 12px 15px;
+    }
+
+    #mensagemTamanho, #resultado, #erro {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 18px;
+    }
+
+    input[type="number"] {
+        font-size: 14px;
+    }
+
+    input[type="submit"], input[type="button"] {
+        font-size: 15px;
+        padding: 10px 12px;
+    }
+
+    #mensagemTamanho, #resultado, #erro {
+        font-size: 18px;
+    }
+}
+
         
     </style>
 </head>
