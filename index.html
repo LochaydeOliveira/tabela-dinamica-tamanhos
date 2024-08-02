@@ -68,11 +68,14 @@ input[type="submit"], input[type="button"] {
     width: 100%;
     transition: 150ms all;
     box-sizing: border-box;
+    border-radius: 0;
 }
 
 input[type="submit"]:hover, input[type="button"]:hover {
     background-color: #020202a6;
+    border-radius: 0;
 }
+
 
 #mensagemTamanho,
 #resultado,
@@ -122,6 +125,29 @@ input[type="submit"]:hover, input[type="button"]:hover {
         font-size: 15px;
         padding: 12px 15px;
     }
+
+    input[type="submit"], input[type="button"] {
+    background-color: #000000;
+    border: none;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 2px;
+    cursor: pointer;
+    width: 100%;
+    transition: 150ms all;
+    box-sizing: border-box;
+    border-radius: 0; /* Remove arredondamento */
+}
+
+input[type="submit"]:hover, input[type="button"]:hover {
+    background-color: #020202a6;
+    border-radius: 0; /* Remove arredondamento no hover */
+}
+
 
     #mensagemTamanho, #resultado, #erro {
         font-size: 20px;
